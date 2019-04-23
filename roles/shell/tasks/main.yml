@@ -1,0 +1,25 @@
+---
+- name: Testing
+  command: hostname
+  when: false
+- name: Creates directory
+  file:
+    path: /home/socke/apps/oh-my-zsh
+    state: directory
+- name: Download oh-my-zsh
+  get_url:
+    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest: /home/socke/apps/oh-my-zsh/install.sh
+
+- name: Set Installscript as exectuable
+  file:
+    path: /home/socke/apps/oh-my-zsh/install.sh
+    state: touch
+    mode: 0755 
+- name: Run Install Script
+  script: /home/socke/apps/oh-my-zsh/install.sh
+- name: Select ZSH Theme
+  lineinfile:
+    path: /home/socke/.zshrc
+    regexp: '^ZSH_THEME='
+    line: 'ZSH_THEME="agnoster"'
