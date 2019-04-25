@@ -36,5 +36,8 @@
     url: https://raw.githubusercontent.com/docker/compose/1.24.0/contrib/completion/bash/docker-compose
     dest: /etc/bash_completion.d/docker-compose
     mode: 0744
+- name: Install docker-compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-
+- name: Set permission for docker-compose
+  shell: chmod +x /usr/local/bin/docker-compose
