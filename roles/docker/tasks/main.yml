@@ -31,8 +31,10 @@
     - docker-ce-cli
     - containerd.io
 
-- name: Enable Autocompletion
+- name: Enable Autocompletion for bash
   get_url:
     url: https://raw.githubusercontent.com/docker/compose/1.24.0/contrib/completion/bash/docker-compose
     dest: /etc/bash_completion.d/docker-compose
     mode: 0744
+
+
