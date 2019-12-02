@@ -26,6 +26,11 @@
   apt: 
      name: zsh
      state: present
+
+- name: install Fonts Powerline
+  apt:
+          name: fonts-powerline
+          state: present
 - name: Download oh-my-zsh
   get_url:
     url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
