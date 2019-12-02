@@ -36,6 +36,17 @@
     url: https://raw.githubusercontent.com/docker/compose/1.24.0/contrib/completion/bash/docker-compose
     dest: /etc/bash_completion.d/docker-compose
     mode: 0744
+
+- name: Configure Docker Group
+  group:
+    name: docker
+    state: present
+    system: yes
+- name: Add User to docker group
+  user: 
+        name: "{{ user }}"
+        group: docker
+
 - name: Install docker-compose
   shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
