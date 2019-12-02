@@ -2,6 +2,6 @@
 - name: install docker
   hosts: localhost
   connection: local
-  become: true 
+  become: yes
   roles:
           - docker

@@ -2,24 +2,49 @@
 - name: Testing
   command: hostname
   when: false
+
+- name: get user home directory
+  shell: "getent passwd {{ user }}  | awk -F: '{ print $6 }'"
+  changed_when: false
+  register: user_home
+
+- name: debug output
+  debug:
+        var: user_home.stdout
+
+
 - name: Creates directory
   file:
-    path: /home/socke/apps/oh-my-zsh
+    path: '{{user_home.stdout}}/apps/oh-my-zsh'
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0755
     state: directory
+
+
+- name: Install zsh
+  apt: 
+     name: zsh
+     state: present
 - name: Download oh-my-zsh
   get_url:
     url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
-    dest: /home/socke/apps/oh-my-zsh/install.sh
-
-- name: Set Installscript as exectuable
-  file:
-    path: /home/socke/apps/oh-my-zsh/install.sh
-    state: touch
+    dest: '{{user_home.stdout}}/apps/oh-my-zsh/install.sh'
+    owner: "{{ user }}"
+    group: "{{ user }}"
     mode: 0755 
+
+    #- name: Set Installscript as exectuable
+    #file:
+    # path: '{{user_home.stdout}}/apps/oh-my-zsh/install.sh'
+    # state: touch
+    ##mode: 0755 
 - name: Run Install Script
-  script: /home/socke/apps/oh-my-zsh/install.sh
+  script: '{{user_home.stdout}}/apps/oh-my-zsh/install.sh'
+  ignore_errors: yes
 - name: Select ZSH Theme
   lineinfile:
-    path: /home/socke/.zshrc
+    path: '{{user_home.stdout}}/.zshrc'
     regexp: '^ZSH_THEME='
     line: 'ZSH_THEME="agnoster"'
+
